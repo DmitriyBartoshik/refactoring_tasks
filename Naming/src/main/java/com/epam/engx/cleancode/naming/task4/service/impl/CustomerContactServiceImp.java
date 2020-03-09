@@ -5,14 +5,16 @@ import com.epam.engx.cleancode.naming.task4.service.CustomerContactService;
 import com.epam.engx.cleancode.naming.task4.thirdpartyjar.CustomerContact;
 import com.epam.engx.cleancode.naming.task4.thirdpartyjar.CustomerContactDAO;
 
-public class CustomerContactServiceImpl implements CustomerContactService {
+public class CustomerContactServiceImp implements CustomerContactService {
 
     private CustomerContactDAO customerContactDAO;
 
+    @Override
     public CustomerContact findCustomerContactDetailsByCustomerId(Long customerId) {
         return customerContactDAO.findById(customerId);
     }
 
+    @Override
     public void updateCustomerContactDetails(CustomerContact customerContactDetails) {
         customerContactDAO.update(customerContactDetails);
     }
