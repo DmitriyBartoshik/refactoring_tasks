@@ -13,7 +13,7 @@ public class User {
 
 	private User[] subordinateArray;
 
-	private int iR;
+	private int iRating;
 
 	public User(String surName) {
 		super();
@@ -23,7 +23,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [dateOfBirth=" + dateOfBirth + ", surName=" + surName + ", booleanAdmin=" + booleanAdmin + ", subordinateArray="
-				+ Arrays.toString(subordinateArray) + ", iRating=" + iR + "]";
+				+ Arrays.toString(subordinateArray) + ", iRating=" + iRating + "]";
 	}
 
 }
