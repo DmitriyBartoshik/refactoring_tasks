@@ -11,12 +11,7 @@ public class Order {
 
     public Double getPriceOfAvailableProducts() {
         double orderPrice = 0.0;
-        Iterator<Product> iterator = products.iterator();
-        while (iterator.hasNext()) {
-            Product p = iterator.next();
-            if (!p.isAvailable())
-                iterator.remove();
-        }
+        checkAvailableProducts();
         for (Product p : products)
             orderPrice += p.getProductPrice();
         return orderPrice;
@@ -25,5 +20,14 @@ public class Order {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    public void checkAvailableProducts (){
+        Iterator<Product> iterator = products.iterator();
+        while (iterator.hasNext()) {
+            Product product = iterator.next();
+            if (product.isNotAvailable())
+                iterator.remove();
+        }
     }
 }

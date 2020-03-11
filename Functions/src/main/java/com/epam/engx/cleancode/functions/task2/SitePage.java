@@ -22,7 +22,7 @@ public class SitePage {
     public String getEditablePageUrl(Map<String, String> params) {
         String paramsString = "";
         for (Map.Entry<String, String> param : params.entrySet())
-            paramsString += "&" + param.getKey() + "=" + param.getValue();
+            paramsString += addParam(param.getKey(),param.getValue());
         return HTTP + DOMAIN + EDITABLE + paramsString + getAttributes();
     }
 
@@ -38,7 +38,9 @@ public class SitePage {
         return siteGroup;
     }
 
-
+    public String addParam(String key, String value) {
+        return "&" + key + "=" + value;
+    }
 
 
 }

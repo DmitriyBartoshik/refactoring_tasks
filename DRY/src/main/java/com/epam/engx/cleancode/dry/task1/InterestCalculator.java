@@ -22,19 +22,13 @@ public class InterestCalculator {
     }
 
     private boolean isAccountStartedAfterBonusAge(AccountDetails accountDetails) {
-        return durationBetweenDatesInYears(accountDetails.getBirth(), accountDetails.getStartDate()) > BONUS_AGE;
+        return countDurationBetweenDatesInYears(accountDetails.getBirth(), accountDetails.getStartDate()) > BONUS_AGE;
     }
 
-    private int durationBetweenDatesInYears(Date from, Date to) {
-        Calendar startCalendar = new GregorianCalendar();
-        startCalendar.setTime(from);
-        Calendar endCalendar = new GregorianCalendar();
-        endCalendar.setTime(to);
-
-        int diffYear = endCalendar.get(Calendar.YEAR) - startCalendar.get(Calendar.YEAR);
-        if (endCalendar.get(Calendar.DAY_OF_YEAR) < startCalendar.get(Calendar.DAY_OF_YEAR))
-            return diffYear - 1;
-        return diffYear;
+    private int countDurationBetweenDatesInYears(Date from, Date to) {
+        Calendar startCalendar = createStartCalendar(from);
+        Calendar endCalendar = createEndCalendar(to);
+        return countDiffYear(startCalendar,endCalendar);
     }
 
     private BigDecimal interest(AccountDetails accountDetails) {
@@ -43,25 +37,43 @@ public class InterestCalculator {
             if (AGE <= accountDetails.getAge()) {
                 //interest = (PrincipalAmount * DurationInYears * AnnualInterestRate) / 100
                 interest = accountDetails.getBalance().doubleValue()
-                        * durationSinceStartDateInYears(accountDetails.getStartDate()) * SENIOR_PERCENT / 100;
+                        * countDurationSinceStartDateInYears(accountDetails.getStartDate()) * SENIOR_PERCENT / 100;
             } else {
                 interest = accountDetails.getBalance().doubleValue()
-                        * durationSinceStartDateInYears(accountDetails.getStartDate()) * INTEREST_PERCENT / 100;
+                        * countDurationSinceStartDateInYears(accountDetails.getStartDate()) * INTEREST_PERCENT / 100;
             }
         }
         return BigDecimal.valueOf(interest);
     }
 
-    private int durationSinceStartDateInYears(Date startDate) {
-        Calendar startCalendar = new GregorianCalendar();
-        startCalendar.setTime(startDate);
-        Calendar endCalendar = new GregorianCalendar();
-        endCalendar.setTime(new Date());
+    private int countDurationSinceStartDateInYears(Date startDate) {
+        Calendar startCalendar = createStartCalendar(startDate);
+        Calendar endCalendar = createEndCalendar();
+        return countDiffYear(startCalendar, endCalendar);
+    }
 
+    public int countDiffYear(Calendar startCalendar, Calendar endCalendar) {
         int diffYear = endCalendar.get(Calendar.YEAR) - startCalendar.get(Calendar.YEAR);
         if (endCalendar.get(Calendar.DAY_OF_YEAR) < startCalendar.get(Calendar.DAY_OF_YEAR))
             return diffYear - 1;
         return diffYear;
+    }
 
+    public Calendar createStartCalendar(Date startDate) {
+        Calendar startCalendar = new GregorianCalendar();
+        startCalendar.setTime(startDate);
+        return startCalendar;
+    }
+
+    public Calendar createEndCalendar(Date endDate) {
+        Calendar endCalendar = new GregorianCalendar();
+        endCalendar.setTime(endDate);
+        return endCalendar;
+    }
+
+    public Calendar createEndCalendar() {
+        Calendar endCalendar = new GregorianCalendar();
+        endCalendar.setTime(new Date());
+        return endCalendar;
     }
 }
