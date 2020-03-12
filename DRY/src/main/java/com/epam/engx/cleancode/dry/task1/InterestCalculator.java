@@ -36,11 +36,9 @@ public class InterestCalculator {
         if (isAccountStartedAfterBonusAge(accountDetails)) {
             if (AGE <= accountDetails.getAge()) {
                 //interest = (PrincipalAmount * DurationInYears * AnnualInterestRate) / 100
-                interest = accountDetails.getBalance().doubleValue()
-                        * countDurationSinceStartDateInYears(accountDetails.getStartDate()) * SENIOR_PERCENT / 100;
+                interest = countInterest(accountDetails) * SENIOR_PERCENT / 100;
             } else {
-                interest = accountDetails.getBalance().doubleValue()
-                        * countDurationSinceStartDateInYears(accountDetails.getStartDate()) * INTEREST_PERCENT / 100;
+                interest = countInterest(accountDetails) * INTEREST_PERCENT / 100;
             }
         }
         return BigDecimal.valueOf(interest);
@@ -75,5 +73,9 @@ public class InterestCalculator {
         Calendar endCalendar = new GregorianCalendar();
         endCalendar.setTime(new Date());
         return endCalendar;
+    }
+    public double countInterest(AccountDetails accountDetails){
+        return accountDetails.getBalance().doubleValue()
+                * countDurationSinceStartDateInYears(accountDetails.getStartDate());
     }
 }
